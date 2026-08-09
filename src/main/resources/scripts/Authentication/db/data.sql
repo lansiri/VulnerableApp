@@ -7,8 +7,8 @@ INSERT INTO auth_users VALUES (1, 'admin_sqli', 'not_needed_for_sqli', NULL, 'PL
 INSERT INTO auth_users VALUES (2, 'admin_logs', 'v9K#2mLp!8zQ', NULL, 'PLAIN', 2, 'admin_logs@example.com', 'ADMIN');
 
 -- Level 3: Plaintext Storage
--- Password is stored as a BCrypt (cost 10) hash; the cleartext is not kept anywhere.
-INSERT INTO auth_users VALUES (3, 'admin_plain', '$2a$10$HsO5sbx3DxXFvHqYqsna4.f6kmGD7YccRbW1Lcp2/wAeO81qKga2y', NULL, 'BCRYPT', 3, 'admin_plain@example.com', 'ADMIN');
+-- Real password: 'b7X$4nRj-6mW'
+INSERT INTO auth_users VALUES (3, 'admin_plain', 'b7X$4nRj-6mW', NULL, 'PLAIN', 3, 'admin_plain@example.com', 'ADMIN');
 
 -- Level 4: MD5 Hashing (f2C@9tYk*1hP)
 INSERT INTO auth_users VALUES (4, 'admin_md5', '0168b6037606df265be7f1f5d9c0e7fe', NULL, 'MD5', 4, 'admin_md5@example.com', 'ADMIN');
