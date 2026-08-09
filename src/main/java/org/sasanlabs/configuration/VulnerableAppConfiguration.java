@@ -49,7 +49,6 @@ public class VulnerableAppConfiguration {
     private static final List<String> MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS =
             Arrays.asList(
                     "/" + UnrestrictedFileUpload.CONTROLLER_PATH + "/" + LevelConstants.LEVEL_9);
-    static final long MAX_UPLOAD_SIZE_BYTES = 5L * 1024L * 1024L;
 
     /**
      * Will Inject MessageBundle into messageSource bean.
@@ -186,7 +185,11 @@ public class VulnerableAppConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    /** Applies the upload endpoint's size limit before multipart parsing consumes resources. */
+    /**
+     * Customized MultipartFilter bean disables default max upload size for multipart files and
+     * their overall requests, for select paths. See {@link
+     * UnrestrictedFileUpload#getVulnerablePayloadLevel10()} for usage.
+     */
     @Bean
     @Order(0)
     public MultipartFilter multipartFilter() {
@@ -194,7 +197,10 @@ public class VulnerableAppConfiguration {
             @Override
             protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
                 if (MAX_FILE_UPLOAD_SIZE_OVERRIDE_PATHS.contains(request.getServletPath())) {
-                    return level9MultipartResolver();
+                    CommonsMultipartResolver multipart = new CommonsMultipartResolver();
+                    multipart.setMaxUploadSize(-1);
+                    multipart.setMaxUploadSizePerFile(-1);
+                    return multipart;
                 } else {
                     // returns default implementation
                     return lookupMultipartResolver();
@@ -203,12 +209,5 @@ public class VulnerableAppConfiguration {
         }
         ;
         return new MaxUploadSizeOverrideMultipartFilter();
-    }
-
-    static CommonsMultipartResolver level9MultipartResolver() {
-        CommonsMultipartResolver multipart = new CommonsMultipartResolver();
-        multipart.setMaxUploadSize(MAX_UPLOAD_SIZE_BYTES);
-        multipart.setMaxUploadSizePerFile(MAX_UPLOAD_SIZE_BYTES);
-        return multipart;
     }
 }
