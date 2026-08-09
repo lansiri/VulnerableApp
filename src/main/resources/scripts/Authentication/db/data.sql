@@ -26,8 +26,8 @@ INSERT INTO auth_users VALUES (7, 'admin_enum', '71ad23cc508b5658f0bc21d8323f555
 -- Bcrypt hash for 'password123'
 INSERT INTO auth_users VALUES (8, 'admin_weak', '$2a$10$gV2vZ5fxhZlwOP.GIqOI1.z7q5jws8VDmgIcKqY/uzvhzSUDio2sW', NULL, 'BCRYPT', 8, 'admin_weak@example.com', 'ADMIN');
 
--- Level 9: Secure (Bcrypt + Generic Error) (9fG#2hJk*LmN!8qR)
--- Bcrypt hash for '9fG#2hJk*LmN!8qR'
+-- Level 9: Secure (Bcrypt + Generic Error)
+-- Password is stored as a BCrypt (cost 10) hash; the cleartext is not kept anywhere.
 INSERT INTO auth_users VALUES (9, 'admin_secure', '$2a$10$1WiFUNqUY/vHTzR2QtuMQuzCLK3aZEdjEUpqS4msXOevaCz7Wobe.', NULL, 'BCRYPT', 9, 'admin_secure@example.com', 'ADMIN');
 
 -- Level 10: Low-iteration BCrypt (cost factor 4)
